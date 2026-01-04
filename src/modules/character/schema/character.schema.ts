@@ -18,11 +18,20 @@ export const characterSchema = z.object({
   kakeraValue: z.number().min(0),
 })
 
-export type CreateCharacterSchema = z.infer<typeof createCharacterSchema>;
+export const characterWithSeriesSchema = z.object({
+  ...characterSchema,
+  series: z.array(z.object({
+    id: z.number().int().positive(),
+    name: z.string().min(1),
+    image: z.url().optional(),
+  })).optional(),
+})
 
-/*
-model Character {
-  
-  series       CharactersOnSeries[]
-  owners       CharacterOwnership[]
-}*/
+export const characterWithSerieIdSchema = z.object({
+  ...characterSchema,
+  seriesIds: z.array(z.number().int().positive()).optional(),
+})
+
+export type CreateCharacterSchema = z.infer<typeof createCharacterSchema>;
+export type CharacterSchema = z.infer<typeof characterSchema>;
+export type CharacterWithSeriesSchema = z.infer<typeof characterWithSeriesSchema>;

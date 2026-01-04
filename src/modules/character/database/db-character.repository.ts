@@ -28,6 +28,13 @@ export class CharacterRepository implements ICharacterRepository {
   async getCharacterById(id: number): Promise<any> {
     const character = await this.prisma.character.findUnique({
       where: { id },
+      include: {
+        series: {
+          include: {
+            serie: true,
+          }
+        }
+      }
     });
 
     if (!character) {
@@ -40,6 +47,13 @@ export class CharacterRepository implements ICharacterRepository {
   async getCharacterByName(name: string): Promise<any> {
     const character = await this.prisma.character.findFirst({
       where: { name },
+      include: {
+        series: {
+          include: {
+            serie: true,
+          }
+        }
+      }
     });
 
     if (!character) {
