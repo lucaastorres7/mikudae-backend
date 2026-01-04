@@ -1,0 +1,73 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+// ------ Tables ------
+model Character {
+  id           Int      @id @default(autoincrement())
+  name         String
+  gender       Gender
+  category     Category
+  images       String[]
+  kakeraValue  Int
+  
+  series       CharactersOnSeries[]
+  owners       CharacterOwnership[]
+}
+
+model Serie {
+  id       Int @id @default(autoincrement())
+  name     String
+  image    String
+  characters CharactersOnSeries[]
+}
+
+model Harem {
+  id          Int      @id @default(autoincrement())
+  name        String
+  ownerId     String
+  serverId    String
+
+  characters  CharacterOwnership[]
+
+  @@unique([ownerId, serverId])
+}
+
+// ------ Join Tables ------
+model CharactersOnSeries {
+  characterId Int
+  serieId     Int
+
+  character   Character @relation(fields: [characterId], references: [id])
+  serie       Serie     @relation(fields: [serieId], references: [id])
+
+  @@id([characterId, serieId])
+}
+
+model CharacterOwnership {
+  id          Int      @id @default(autoincrement())
+  haremId     Int
+  characterId Int
+
+  harem       Harem    @relation(fields: [haremId], references: [id])
+  character   Character @relation(fields: [characterId], references: [id])
+
+  @@unique([haremId, characterId])
+}
+
+// ------ Enums ------
+enum Category {
+  ANIME
+  GAME
+  BOTH
+}
+
+enum Gender {
+  WAIFU
+  HUSBANDO
+  BOTH
+}

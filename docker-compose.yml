@@ -1,0 +1,17 @@
+services:
+  mikudae_db:
+    container_name: mikudae_db
+    image: bitnami/postgresql
+    ports:
+      - ${DB_PORT}:5432
+    env_file:
+      - ./.env
+    environment:
+      - POSTGRESQL_USERNAME=${DB_USER}
+      - POSTGRESQL_PASSWORD=${DB_PASSWORD}
+      - POSTGRESQL_DATABASE=${DB_NAME}
+    volumes:
+      - mikudae_db_data:/bitnami/postgresql
+
+volumes:
+  mikudae_db_data:
