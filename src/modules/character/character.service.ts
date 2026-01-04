@@ -13,4 +13,8 @@ export class CharacterService {
   getCharacterById(id: number) {
     return this.character.getCharacterById(id);
   }
+
+  getCharacterByName(name: string) {
+    return this.character.getCharacterByName(name);
+  }
 }

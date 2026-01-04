@@ -1,5 +1,5 @@
 import { ZodValidationPipe } from '@/pipes/zod-validation.pipe';
-import { Body, Controller, Get, Param, Post, UsePipes } from '@nestjs/common';
+import { Body, Controller, Get, Param, Post, Query, UsePipes } from '@nestjs/common';
 import { type CreateCharacterSchema, createCharacterSchema } from './schema/character.schema';
 import { CharacterService } from './character.service';
 
@@ -10,6 +10,11 @@ export class CharacterController {
   @Get(':id')
   getCharacterById(@Param('id') id: string) {
     return this.characterService.getCharacterById(Number(id));
+  }
+  
+  @Get()
+  getCharacterByName(@Query('name') name: string){
+    return this.characterService.getCharacterByName(name);
   }
 
   @Post()

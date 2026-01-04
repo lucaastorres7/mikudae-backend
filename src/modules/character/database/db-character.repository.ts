@@ -36,4 +36,16 @@ export class CharacterRepository implements ICharacterRepository {
 
     return character;
   }
+
+  async getCharacterByName(name: string): Promise<any> {
+    const character = await this.prisma.character.findFirst({
+      where: { name },
+    });
+
+    if (!character) {
+      throw new NotFoundException('Character not found');
+    }
+
+    return character;
+  }
 }
