@@ -32,7 +32,15 @@ export class RollService {
       const nextReset = new Date(lastRollReset);
       nextReset.setHours(nextReset.getHours() + 1);
 
-      throw new BadRequestException(`Sem rolls! Reset em ${nextReset.toTimeString()}`)
+      const minutesUntilReset = Math.ceil((nextReset.getTime() - now.getTime()) / (1000 * 60));
+
+      return {
+        rollSuccess: false,
+        message: `No rolls left! Reset in ${minutesUntilReset} minutes.`,
+        rollsLimit: config.baseRolls,
+        remainingRolls: 0,
+        minutesUntilReset,
+      }
     }
 
     const character = await this.roll.getRandomCharacter(genderFilter, categoryFilter);
@@ -40,6 +48,6 @@ export class RollService {
 
     const remainingRolls = config.baseRolls - updatedRollsCount;
 
-    return { result: 'Roll executed', remainingRolls, character};
+    return { rollSuccess: true, remainingRolls, character};
   }
 }
