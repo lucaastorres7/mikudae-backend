@@ -7,6 +7,14 @@ datasource db {
 }
 
 // ------ Tables ------
+model Player {
+  id              String    @id
+  rollsCount      Int       @default(0)
+  lastInteraction DateTime  @default(now())
+
+  harems          Harem[]
+}
+
 model Character {
   id           Int      @id @default(autoincrement())
   name         String
@@ -33,6 +41,7 @@ model Harem {
   ownerId     String
   serverId    String
 
+  owner       Player   @relation(fields: [ownerId], references: [id])
   characters  CharacterOwnership[]
 
   @@unique([ownerId, serverId])

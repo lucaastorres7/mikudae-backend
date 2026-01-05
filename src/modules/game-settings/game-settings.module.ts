@@ -12,5 +12,6 @@ import { GameSettingsController } from './game-settings.controller';
     PrismaService, 
     { provide: IGameSettingsRepository, useClass: GameSettingsRepository }
   ],
+  exports: [GameSettingsService],
 })
 export class GameSettingsModule {}

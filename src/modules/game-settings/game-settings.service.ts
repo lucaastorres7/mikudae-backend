@@ -7,8 +7,8 @@ export class GameSettingsService {
   constructor(private readonly gameSettings: IGameSettingsRepository) {}
 
   private readonly MODES = {
-    [GameMode.MODE_1]: { baseRolls: 10, rollResetTimer: 60 * 60, marryResetTimer: 60 * 60 * 3 },
-    [GameMode.MODE_2]: { baseRolls: 8, rollResetTimer: 60 * 60, marryResetTimer: 60 * 60 * 3 },
+    [GameMode.MODE_1]: { baseRolls: 10, rollResetMinute: 0, marryInterval: 3 },
+    [GameMode.MODE_2]: { baseRolls: 8, rollResetMinute: 0, marryInterval: 3 },
   }
 
   async getServerConfig(serverId: string) {
