@@ -38,6 +38,13 @@ model Harem {
   @@unique([ownerId, serverId])
 }
 
+model ServerConfig {
+  serverId   String   @id
+  gameMode   GameMode @default(MODE_1)
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+}
+
 // ------ Join Tables ------
 model CharactersOnSeries {
   characterId Int
@@ -71,4 +78,9 @@ enum Gender {
   WAIFU
   HUSBANDO
   BOTH
+}
+
+enum GameMode {
+  MODE_1
+  MODE_2
 }
