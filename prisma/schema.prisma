@@ -6,7 +6,32 @@ datasource db {
   provider = "postgresql"
 }
 
-// ------ Tables ------
+// ------ Mobshow Tables ------
+model MobSession {
+  id            Int       @id @default(autoincrement())
+  serverId      String
+  channelId     String
+  hostId        String
+  status        MobStatus @default(WAITING)
+  participants  MobParticipant[]
+  winner        String?
+
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+}
+
+model MobParticipant {
+  id            Int       @id @default(autoincrement())
+  sessionId     Int
+  playerId      String
+  score         Int       @default(0)
+
+  session       MobSession @relation(fields: [sessionId], references: [id], onDelete: Cascade)
+
+  @@unique([sessionId, playerId])
+}
+
+// ------ Gacha Tables ------
 model Player {
   id              String    @id
   rollsCount      Int       @default(0)
@@ -92,4 +117,10 @@ enum Gender {
 enum GameMode {
   MODE_1
   MODE_2
+}
+
+enum MobStatus {
+  ACTIVE
+  WAITING
+  FINISHED
 }
